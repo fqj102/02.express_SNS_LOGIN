@@ -1,28 +1,48 @@
 <template>
-  <div>
-    <!-- <form action='' -->
-    <v-btn href="/api/auth/kakao/">카카오</v-btn>
-    <v-btn href="/api/auth/naver/">네이버</v-btn>
-    <v-btn href="/api/auth/facebook">페이스북</v-btn>
-    <v-btn href="/api/auth/github">깃헙</v-btn>
-    
-    <v-btn v-if="email" @click="logout">로그아웃</v-btn>
+  <v-container>
+    <v-layout row wrap>
+      <v-flex class="d-flex justify-center">
+        <v-btn height="5rem" width="5rem"
+        v-for="(s, index) in sns" :key="index" 
+        flat depressed :href="'api/auth/' + s"
+        class="mx-3"
+        >
+          <img :src="require(`../assets/${s}.svg`)" class="icon">
+        </v-btn>
+      </v-flex>
+  </v-layout>
 
-    <div v-if="email">
-      {{ email }}님
-      {{ provider }}로 로그인했네요.
+  <div class="d-flex justify-center mt-5"> 
+    <div v-if="email" class="title">
+      <span class="font-weight-bold">{{ email }}</span>님 안녕하세요<br>
+      <span class="font-weight-bold">{{ provider }}</span>계정으로 로그인 하셨습니다.
     </div>
   </div>
+
+  <div class="d-flex justify-center mt-5">
+    <v-btn v-if="email" @click="logout" outlined x-large color="error">
+      <span class="font-weight-medium">로그아웃</span>
+      </v-btn>
+  </div>
+
+  </v-container>
 </template>
 
 <script>
 import api from '../api'
+var path = require('path')
 
 export default {
   data(){
     return {
       email: '',
       provider: '',
+      sns:[
+        'kakao',
+        'naver',
+        'facebook',
+        'github',
+      ]
     }
   },
   methods: {
@@ -52,6 +72,10 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.icon, button{
+  width:5rem;
+  height:5rem;
+}
 
 </style>

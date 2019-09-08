@@ -13,13 +13,7 @@ const { sequelize } = require('./models');
 const passportConfig = require('./passport');
 
 const app = express();
-// sequelize.authenticate()
-//   .then(() => {
-//     console.log('시퀄라이저 연결 성공');
-//   })
-//   .catch(err => {
-//     console.log('시퀄라이저 연결 실패',err)
-//   });
+
 sequelize.sync();
 passportConfig(passport);
 
@@ -40,20 +34,11 @@ app.use(session({
   }
 }));
 
-// app.use(function(req, res, next) {
-//   console.log('엑세스허용중')
-//   res.header("Access-Control-Allow-Origin", "*");
-//   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-//   next();
-// });
-
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 app.use('/',indexRouter);
 app.use('/api/auth/',authRouter);
-
-
 
 app.use((req, res, next) => {
   const err = new Error('Not Found');
